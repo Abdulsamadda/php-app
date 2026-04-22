@@ -1,27 +1,27 @@
-name: Deploy  PHP
+name: Deploy PHP
 
 on:
-push:
-branches:
-- main
+  push:
+    branches:
+      - main
 
 jobs:
-deploy:
-run-ons: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest
 
-steps:
-- name: Deploy to server via SSH
-uses: appleboy/ssh-action@master
-with:
-host: 164.90.236.121
-username: root
-key: ${{ secrets.SSH_KEY }}
-script: | 
-cd php-app || git clone https://github.com/Abdulsamadda/php-app.git
-cd php-app
-git pull
-docker build -t php-app .
-docker stop php-container ||true
-docker rm php-container || true
-docker run -d --name php-container -p 8090:80 php-app
+    steps:
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: 164.90.236.121
+          username: root
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd php-app || git clone https://github.com/Abdulsamadda/php-app.git
+            cd php-app
+            git pull
+            docker build -t php-app .
+            docker stop php-container || true
+            docker rm php-container || true
+            docker run -d --name php-container -p 8090:80 php-app
 
