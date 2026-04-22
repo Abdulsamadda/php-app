@@ -5,23 +5,23 @@ push:
 branches:
 - main
 
-job:
+jobs:
 deploy:
-run-on: ubuntu-latest
+run-ons: ubuntu-latest
 
 steps:
 - name: Deploy to server via SSH
-uses:apppleboy/ssh-action@master
+uses:appleboy/ssh-action@master
 with:
 host: 164.90.236.121
 username:root
-key:${{ secrets.SSH_KEY }}
+key:${{secrets.SSH_KEY}}
 script:|
-cd php-app || git clone https:/github.com/Abdulsamadda/php-app.git
+cd php-app || git clone https://github.com/Abdulsamadda/php-app.git
 cd php-app
 git pull
 docker build -t php-app .
 docker stop php-container ||true
 docker rm php-container || true
-docekr run -d --name php-container -p 8090:80 php-app
+docker run -d --name php-container -p 8090:80 php-app
 
