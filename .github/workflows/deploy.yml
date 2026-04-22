@@ -15,7 +15,7 @@ uses: appleboy/ssh-action@master
 with:
 host: 164.90.236.121
 username: root
-key:${{secrets.SSH_KEY}}
+key:${{ secrets.SSH_KEY }}
 script:|
 cd php-app || git clone https://github.com/Abdulsamadda/php-app.git
 cd php-app
