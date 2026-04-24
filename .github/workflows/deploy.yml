@@ -1,9 +1,8 @@
-name: Deploy PHP
+name: Deploy PHP App
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   deploy:
@@ -11,17 +10,24 @@ jobs:
 
     steps:
       - name: Deploy to server via SSH
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: 164.90.236.121
           username: root
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd php-app || git clone https://github.com/Abdulsamadda/php-app.git
+            set -e
+
+            cd /root || exit
+
+            if [ ! -d "php-app" ]; then
+              git clone https://github.com/Abdulsamadda/php-app.git
+            fi
+
             cd php-app
             git pull
+
             docker build -t php-app .
             docker stop php-container || true
             docker rm php-container || true
             docker run -d --name php-container -p 8090:80 php-app
-
