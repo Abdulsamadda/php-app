@@ -1,9 +1,8 @@
 <?php 
-$conn=mysqli_connect("localhost", "root", "", "firstdb");
+$conn = mysqli_connect("db", "root", "root", "firstdb");
 
 if(!$conn){
-    die(mysqli_error($conn));
-    
+    die("Connection failed: " . mysqli_connect_error());
 }
 
 ?>
