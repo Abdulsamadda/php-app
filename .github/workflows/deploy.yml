@@ -30,4 +30,6 @@ jobs:
             docker build -t php-app .
             docker stop php-container || true
             docker rm php-container || true
+            # kill anything using port 8090 #
+            fuser -k 8090/tcp || true
             docker run -d --name php-container -p 8090:80 php-app
